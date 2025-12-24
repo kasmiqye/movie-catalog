@@ -1,0 +1,35 @@
+<div *ngIf="filteredMovies$ | async as movies">
+  
+  <div *ngIf="status === 'loading'">
+    <p>Загрузка...</p>
+  </div>
+  <div *ngIf="status === 'error'">
+    <p>Ошибка загрузки</p>
+  </div>
+
+  <div *ngIf="status === 'success'">
+    <input
+      type="text"
+      placeholder="Поиск по названию"
+      (input)="searchQueryChanged($event.target.value)"
+    />
+
+    <p *ngIf="movies.length === 0">Ничего не найдено</p>
+
+    <div class="movie-list">
+      <div
+        class="movie-card"
+        *ngFor="let movie of movies"
+        [routerLink]="['/movies', movie.id]"
+      >
+        <div class="movie-poster">Poster</div>
+
+        <div class="movie-info">
+          <h3>{{ movie.title }}</h3>
+          <p>Год: {{ movie.year }}</p>
+          <p>Рейтинг: {{ movie.rating }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

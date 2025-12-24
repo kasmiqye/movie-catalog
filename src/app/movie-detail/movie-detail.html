@@ -1,0 +1,28 @@
+<div *ngIf="status === 'loading'">
+        <p>Загрузка...</p>
+</div>
+
+<div *ngIf="status === 'not-found'">
+        <p>Фильм не найден</p>
+</div>
+
+<div *ngIf="status === 'error'">
+        <p>Ошибка загрузки</p>
+</div>
+
+<div *ngIf="movie$ | async as movie">
+        <div *ngIf="status === 'success'" class="movie-detail">
+                <div class="movie-poster">Poster</div>
+
+                <div class="movie-info">
+                        <h1>{{movie.title}}</h1>
+                        <p>Год: {{movie.year}}</p>
+                        <p>Рейтинг: {{movie.rating}}</p>
+                        <p>{{movie.description}}</p>
+                </div>
+        </div>    
+</div>
+
+<button *ngIf="status !== 'loading'" (click)="goBack()">
+        Назад
+</button>
