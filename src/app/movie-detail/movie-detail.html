@@ -1,28 +1,41 @@
-<div *ngIf="status === 'loading'">
-        <p>Загрузка...</p>
-</div>
+@if (movie$ | async; as movie) {
+        <main class="movie-detail">
 
-<div *ngIf="status === 'not-found'">
-        <p>Фильм не найден</p>
-</div>
+        @if (status$ | async; as status) {
 
-<div *ngIf="status === 'error'">
-        <p>Ошибка загрузки</p>
-</div>
+                @if (status === 'loading') {
+                        <p class="status">Загрузка...</p>
+                }
 
-<div *ngIf="movie$ | async as movie">
-        <div *ngIf="status === 'success'" class="movie-detail">
-                <div class="movie-poster">Poster</div>
+                @else if (status === 'error') {
+                        <p class="status">Ошибка загрузки</p>
+                }
 
-                <div class="movie-info">
-                        <h1>{{movie.title}}</h1>
-                        <p>Год: {{movie.year}}</p>
-                        <p>Рейтинг: {{movie.rating}}</p>
-                        <p>{{movie.description}}</p>
-                </div>
-        </div>    
-</div>
+                @else if (status === 'not-found') {
+                        <p class="status">Фильм не найден</p>
+                }
 
-<button *ngIf="status !== 'loading'" (click)="goBack()">
+                @else if (status === 'success') {
+
+                        
+                        <section class="movie-card">
+                                <div class="movie-poster">Poster</div>
+
+                                <section class="movie-info">
+                                        <h1>{{movie.title}}</h1>
+                                        <p>Год: {{movie.year}}</p>
+                                        <p>Рейтинг: {{movie.rating}}</p>
+                                        <p>{{movie.description}}</p>
+                                </section>
+                        </section>
+                        
+                        
+                }
+        }
+</main>
+}
+
+
+<button *ngIf="(status$ | async) === 'success'" (click)="goBack()">
         Назад
 </button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -12,10 +12,11 @@ type MovieListStatus = 'loading' | 'success' | 'error';
   imports: [CommonModule, RouterModule],
   templateUrl: './movie-list.html',
   styleUrl: './movie-list.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class MovieList implements OnInit {
-  status: MovieListStatus = 'loading';
+  status$ = new BehaviorSubject<MovieListStatus>('loading');
   filteredMovies$: Observable<Movie[] | null> | undefined;
 
   private  searchQuery$ = new BehaviorSubject<string>('');
@@ -25,11 +26,11 @@ export class MovieList implements OnInit {
   ngOnInit(): void {
     const movies$ = this.movieService.getAllMovies().pipe(
       tap(() => {
-        this.status = 'success'
+        this.status$.next('success');
       }),
       
       catchError(() => {
-        this.status = 'error';
+        this.status$.next('error');
         return of([]);
       })
     )

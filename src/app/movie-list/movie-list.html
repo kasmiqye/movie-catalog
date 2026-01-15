@@ -1,35 +1,50 @@
-<div *ngIf="filteredMovies$ | async as movies">
-  
-  <div *ngIf="status === 'loading'">
-    <p>Загрузка...</p>
-  </div>
-  <div *ngIf="status === 'error'">
-    <p>Ошибка загрузки</p>
-  </div>
+<main class="page">
+  <section class="content">
+    <section class="movie-list-wrapper">
 
-  <div *ngIf="status === 'success'">
-    <input
-      type="text"
-      placeholder="Поиск по названию"
-      (input)="searchQueryChanged($event.target.value)"
-    />
+        @if (status$ | async; as status) {
 
-    <p *ngIf="movies.length === 0">Ничего не найдено</p>
+          @if (status === 'loading') {
+            <p class="status">Загрузка...</p>
+          }
+          
+          @else if (status === 'error') {
+            <p class="status">Ошибка загрузки</p>
+          }
 
-    <div class="movie-list">
-      <div
-        class="movie-card"
-        *ngFor="let movie of movies"
-        [routerLink]="['/movies', movie.id]"
-      >
-        <div class="movie-poster">Poster</div>
+          @else if (status === 'success') {
 
-        <div class="movie-info">
-          <h3>{{ movie.title }}</h3>
-          <p>Год: {{ movie.year }}</p>
-          <p>Рейтинг: {{ movie.rating }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            @if (filteredMovies$ | async; as movies) {
+              <input
+                class="movie-search"
+                type="text"
+                placeholder="Поиск по названию"
+                (input)="searchQueryChanged($event.target.value)"
+              />
+
+              @if (movies.length === 0) {
+                <p class="status">Ничего не найдено</p>
+              }
+
+              <section class="movie-list">
+                @for (movie of movies; track movie.id) {
+                  <article
+                    class="movie-card"
+                    [routerLink]="['/movies', movie.id]"
+                  >
+                    <div class="movie-poster">Poster</div>
+
+                    <section class="movie-info">
+                      <h3>{{ movie.title }}</h3>
+                      <p>Год: {{ movie.year }}</p>
+                      <p>Рейтинг: {{ movie.rating }}</p>
+                    </section>
+                  </article>
+                }
+              </section>
+            }
+          }
+        }
+        </section>
+      </section>
+</main>

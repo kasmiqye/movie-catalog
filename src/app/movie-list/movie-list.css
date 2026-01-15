@@ -1,8 +1,41 @@
+.page {
+    min-height: 100vh;
+}
+
+.content {
+    min-height: 400px;
+    padding: 20px;
+}
+
+.movie-list-wrapper {
+    position: relative;
+    min-height: 300px;
+}
+
+.status {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-size: 16px;
+    color: #666;
+}
+
+.movie-search {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
 .movie-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 16px;
-    padding: 20px;
 }
 
 .movie-card {
